@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 import Index from '../views/index'
 import Orders from '../views/Orders'
 import Download from '../views/Download'
+import Success from '../views/Success'
 
 // 创建并暴露一个路由器
 export default new VueRouter({
@@ -23,6 +24,10 @@ export default new VueRouter({
         {
             path: '/download',
             component: Download
+        },
+        {
+            path: '/success',
+            component: Success
         }
     ]
 })

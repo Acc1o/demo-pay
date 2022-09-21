@@ -1,17 +1,18 @@
 import request from '@/utils/request'
 
 export default{
-
-  queryOrderStatus(orderNo) {
+ 
+  //查询订单列表
+  list() {
     return request({
-      url: '/api/order-info/query-order-status/' + orderNo,
+      url: '/api/order-info/list',
       method: 'get'
     })
   },
 
-  list() {
+  queryOrderStatus(orderNo) {
     return request({
-      url: '/api/order-info/list',
+      url: '/api/order-info/query-order-status/' + orderNo,
       method: 'get'
     })
   }
