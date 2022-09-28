@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CrossOrigin //开放前端的跨域访问
-@Api(tags = "商品订单管理")
+@Api(tags = "订单管理")
 @RestController
 @RequestMapping("/api/order-info")
 public class OrderInfoController {

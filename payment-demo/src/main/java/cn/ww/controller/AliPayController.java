@@ -133,4 +133,81 @@ public class AliPayController {
         }
         return result;
     }
+
+    /**
+     * 用户取消订单
+     * @param orderNo
+     * @return
+     */
+    @ApiOperation("用户取消订单")
+    @PostMapping("/trade/close/{orderNo}")
+    public R cancel(@PathVariable String orderNo){
+        
+        log.info("用户取消订单");
+        aliPayService.cancelOrder(orderNo);
+        return R.ok().setMessage("订单取消成功");
+        
+    }
+
+    /**
+     * 查询订单
+     * @param orderNo
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("查询订单")
+    @GetMapping("/trade//query/{orderNo}")
+    public R queryOrder(@PathVariable String orderNo) throws Exception {
+        log.info("查询订单");
+
+        String result = aliPayService.queryOrder(orderNo);
+        return R.ok().setMessage("查询成功").data("result", result);
+    }
+
+    /**
+     * 申请退款
+     * @param orderNo
+     * @param reason
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("申请退款")
+    @PostMapping("/trade/refund/{orderNo}/{reason}")
+    public R refunds(@PathVariable String orderNo, @PathVariable String reason) throws Exception {
+
+        log.info("申请退款");
+        aliPayService.refund(orderNo, reason);
+        return R.ok();
+    }
+
+    /**
+     * 查询退款
+     * @param orderNo
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("查询退款：测试用")
+    @GetMapping("/trade/fastpay/refund/{orderNo}")
+    public R queryRefund(@PathVariable String orderNo) throws Exception {
+
+        log.info("查询退款");
+
+        String result = aliPayService.queryRefund(orderNo);
+        return R.ok().setMessage("查询成功").data("result", result);
+    }
+
+    /**
+     * 根据账单类型和日期获取账单url地址
+     *
+     * @param billDate
+     * @param type
+     * @return
+     */
+    @ApiOperation("获取账单url")
+    @GetMapping("/bill/downloadurl/query/{billDate}/{type}")
+    public R queryTradeBill(@PathVariable String billDate, @PathVariable String type)  {
+        log.info("获取账单url");
+        String downloadUrl = aliPayService.queryBill(billDate, type);
+        return R.ok().setMessage("获取账单url成功").data("downloadUrl", downloadUrl);
+    }
 }

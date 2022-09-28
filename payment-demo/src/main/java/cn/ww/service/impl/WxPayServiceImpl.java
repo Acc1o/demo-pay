@@ -5,6 +5,7 @@ import cn.ww.config.WxPayConfig;
 import cn.ww.entity.OrderInfo;
 import cn.ww.entity.RefundInfo;
 import cn.ww.enums.OrderStatus;
+import cn.ww.enums.PayType;
 import cn.ww.enums.wxpay.WxApiType;
 import cn.ww.enums.wxpay.WxNotifyType;
 import cn.ww.enums.wxpay.WxRefundStatus;
@@ -14,6 +15,7 @@ import cn.ww.service.PaymentInfoService;
 import cn.ww.service.RefundInfoService;
 import cn.ww.service.WxPayService;
 import cn.ww.util.HttpClientUtils;
+import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.google.gson.Gson;
 import com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
@@ -34,7 +36,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Service
@@ -76,7 +77,7 @@ public class WxPayServiceImpl implements WxPayService {
         log.info("生成订单");
 
         //生成订单
-        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId);
+        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, PayType.WXPAY.getType());
         String codeUrl = orderInfo.getCodeUrl();
         if(orderInfo != null && !StringUtils.isEmpty(codeUrl)){
             log.info("订单已存在，二维码已保存");
@@ -182,11 +183,11 @@ public class WxPayServiceImpl implements WxPayService {
                 }
 
                 //模拟通知并发
-                try {
+                /*try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 //更新订单状态
                 orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.SUCCESS);
@@ -583,7 +584,7 @@ public class WxPayServiceImpl implements WxPayService {
         log.info("生成订单");
 
         //生成订单
-        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId);
+        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, PayType.WXPAY.getType());
         String codeUrl = orderInfo.getCodeUrl();
         if(orderInfo != null && !StringUtils.isEmpty(codeUrl)){
             log.info("订单已存在，二维码已保存");

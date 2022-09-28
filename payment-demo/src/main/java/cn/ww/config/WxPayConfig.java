@@ -3,7 +3,6 @@ package cn.ww.config;
 import com.wechat.pay.contrib.apache.httpclient.WechatPayHttpClientBuilder;
 import com.wechat.pay.contrib.apache.httpclient.auth.*;
 import com.wechat.pay.contrib.apache.httpclient.cert.CertificatesManager;
-import com.wechat.pay.contrib.apache.httpclient.exception.HttpCodeException;
 import com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 
 
@@ -113,7 +110,8 @@ public class WxPayConfig {
 
         // 通过WechatPayHttpClientBuilder构造的HttpClient，会自动的处理签名和验签，并进行证书自动更新
         CloseableHttpClient httpClient = builder.build();
-
+        
+        
         return httpClient;
     }
 

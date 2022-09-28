@@ -3,6 +3,7 @@ package cn.ww.task;
 
 import cn.ww.entity.OrderInfo;
 import cn.ww.entity.RefundInfo;
+import cn.ww.enums.PayType;
 import cn.ww.service.OrderInfoService;
 import cn.ww.service.RefundInfoService;
 import cn.ww.service.WxPayService;
@@ -44,11 +45,11 @@ public class WxPayTask {
     /**
      * 从第0秒开始每隔30秒执行1次，查询创建超过5分钟，并且未支付的订单
      */
-    @Scheduled(cron = "0/30 * * * * ?")
+    //@Scheduled(cron = "0/30 * * * * ?")
     public void orderConfirm() throws Exception {
         log.info("orderConfirm 被执行......");
 
-        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(1);
+        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(1, PayType.WXPAY.getType());
 
         for (OrderInfo orderInfo : orderInfoList) {
             String orderNo = orderInfo.getOrderNo();
@@ -63,7 +64,7 @@ public class WxPayTask {
     /**
      * 从第0秒开始每隔30秒执行1次，查询创建超过5分钟，并且未成功的退款单
      */
-    @Scheduled(cron = "0/30 * * * * ?")
+    //@Scheduled(cron = "0/30 * * * * ?")
     public void refundConfirm() throws Exception {
         log.info("refundConfirm 被执行......");
 
